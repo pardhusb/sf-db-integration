@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8f0acbd6-a700-48cc-850a-fb60d9ce31bf" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="sf-db-integrationFlow" doc:id="0662cd7b-57c9-46e9-ad96-eddf6e90907e" >
+		<http:listener doc:name="Listener" doc:id="559e49d6-99f1-404a-a034-df74c00c4ad0" config-ref="HTTP_Listener_config" path="/task"/>
+		<set-payload value="integration successfull" doc:name="Set Payload" doc:id="35261513-d521-453c-b3de-d34754cebb5b" />
+		<ee:transform doc:name="Transform Message" doc:id="35187845-bafa-4641-9ef8-55bfabee0403" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
